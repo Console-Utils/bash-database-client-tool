@@ -119,7 +119,7 @@ replit_keys_set() {
 
 # Gets existing keys.
 replit_keys_get() {
-  local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -r | --regexp-extended }]] [--] <key1> [<key2>...]"
+  local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]"
   local argv="$(getopt --options h --longoptions help -- "$@")"
 
   if (( $? != 0 ))
@@ -167,7 +167,7 @@ replit_keys_get() {
 
 # Removes existing keys.
 replit_keys_delete() {
-  local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -r | --regexp-extended }]] [--] <key1> [<key2>...]"
+  local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]"
   local argv="$(getopt --options h --longoptions help -- "$@")"
 
   if (( $? != 0 ))
@@ -208,7 +208,7 @@ replit_keys_delete() {
 
 # Prints existing keys.
 replit_keys_list() {
-  local help="$FUNCNAME [{ -h | --help }] [{ -r<pattern> | --regex=<pattern> } [{ -r | --regexp-extended }]] [--]"
+  local help="$FUNCNAME [{ -h | --help }] [{ -r<pattern> | --regex=<pattern> } [{ -e | --extended }]] [--]"
   local argv
   argv="$(getopt --options h --longoptions help -- "$@" 2> /dev/null)"
 
