@@ -18,7 +18,8 @@ The following functions are provided for interacting with Repl.it database:
 #### Syntax
 
 ```bash
-replit_keys_set [{ -h | --help }] [--] <key1>=<value1> [<key2>=<value2>...]
+replit_keys_set [{ -h | --help }] [--] \
+  <key1>=<value1> [<key2>=<value2>...]
 ```
 
 #### Options
@@ -32,7 +33,8 @@ replit_keys_set [{ -h | --help }] [--] <key1>=<value1> [<key2>=<value2>...]
 #### Syntax
 
 ```bash
-replit_keys_get [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]
+replit_keys_get [{ -h | --help }] \
+  [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]
 ```
 
 #### Options
@@ -48,7 +50,8 @@ replit_keys_get [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] 
 #### Syntax
 
 ```bash
-replit_keys_delete [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]
+replit_keys_delete [{ -h | --help }] \
+  [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]
 ```
 
 #### Options
@@ -64,7 +67,8 @@ replit_keys_delete [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [-
 #### Syntax
 
 ```bash
-replit_keys_list usage: replit_keys_list [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] [<key1> [<key2>...]]
+replit_keys_list usage: replit_keys_list [{ -h | --help }] \
+  [{ -r | --regex } [{ -e | --extended }]] [--] [<key1> [<key2>...]]
 ```
 
 #### Options
