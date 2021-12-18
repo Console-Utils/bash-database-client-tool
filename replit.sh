@@ -200,8 +200,9 @@ replit_keys_delete() {
 
   for key in "${keys[@]}"
   do
-    local -i http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | sed --regexp-extended --quiet 's#HTTP/2\s+([[:digit:]])#\1#; p')
-    [[ $http_code == 204 ]] && echo "'$key' was deleted." >&2 || echo "'$key' not found." >&2
+    local -i http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | \
+      sed --regexp-extended --quiet '/^HTTP\/2/ { s|^HTTP/2\s+([[:digit:]]+).*|\1|; p }')
+    (( http_code == 204 )) && echo "'$key' was deleted." || echo "'$key' not found."
   done
 }
 
