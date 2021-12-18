@@ -15,7 +15,7 @@ __replit_colorize_help() {
   local braces_color="\e[${REPLIT_BRACES_COLOR:-36}m"
   local alternation_color="\e[${REPLIT_ALTERNATION_COLOR:-35}m"
   local option_color="\e[${REPLIT_OPTION_COLOR:-94}m"
-  local placeholder_color="\e[${REPLIT_PLACEHOLDER_COLOR:-94}m"
+  local placeholder_color="\e[4;${REPLIT_PLACEHOLDER_COLOR:-94}m"
 
   local usage=$1
 
