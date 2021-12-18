@@ -1,5 +1,7 @@
 # Database client
 
+[![Continuous Integration](https://github.com/Console-Utils/bash-database-client-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/Console-Utils/bash-database-client-tool/actions/workflows/ci.yml)
+
 ## Description
 
 Tool to work with Repl.it database without explicit curl invocation.
