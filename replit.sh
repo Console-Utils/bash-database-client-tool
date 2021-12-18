@@ -28,8 +28,8 @@ __replit_colorize_help() {
   arguments=${arguments//\{/$braces_color\{'\e[0m'}
   arguments=${arguments//\}/$braces_color\}'\e[0m'}
   arguments=${arguments//|/$alternation_color|'\e[0m'}
-  arguments=$(sed --regexp-extended "s/--?\w*/\\\\$option_color&\\\\e[0m/g" <<< $arguments)
-  arguments=$(sed --regexp-extended "s/<\w+>/\\\\$placeholder_color&\\\\e[0m/g" <<< $arguments)
+  arguments=$(sed --regexp-extended "s/--?\w*/\\\\$option_color&\\\\e[0m/g" <<< "$arguments")
+  arguments=$(sed --regexp-extended "s/<\w+>/\\\\$placeholder_color&\\\\e[0m/g" <<< "$arguments")
 
   echo -e "$command $arguments\e[0m"
 }
@@ -133,7 +133,8 @@ replit_keys_set() {
 # Gets existing keys.
 replit_keys_get() {
   local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]"
-  local argv="$(getopt --options h,r,e --longoptions help,regex,extended -- "$@")"
+  local argv
+  argv="$(getopt --options h,r,e --longoptions help,regex,extended -- "$@")"
 
   if (( $? != 0 ))
   then
@@ -189,11 +190,12 @@ replit_keys_get() {
   then
     for key in "${keys[@]}"
     do
-      local value=$(curl "$REPLIT_DB_URL/$key" 2> /dev/null)
+      local value
+      value=$(curl "$REPLIT_DB_URL/$key" 2> /dev/null)
       [[ -n $value ]] && echo "$key=$value"
     done
   else
-    uchecked_keys=($(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null))
+    mapfile -t uchecked_keys < <(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null)
     pattern=$(__replit_join '|' "${keys[@]}")
 
     for uchecked_key in "${uchecked_keys[@]}"
@@ -201,7 +203,8 @@ replit_keys_get() {
       if grep --quiet ${use_extended_regex:+--extended-regexp} "$pattern" <<< "$uchecked_key"
       then
         local key=$uchecked_key
-        local value=$(curl "$REPLIT_DB_URL/$key" 2> /dev/null)
+        local value
+        value=$(curl "$REPLIT_DB_URL/$key" 2> /dev/null)
         [[ -n $value ]] && echo "$key=$value"
       fi
     done
@@ -211,7 +214,8 @@ replit_keys_get() {
 # Removes existing keys.
 replit_keys_delete() {
   local help="$FUNCNAME [{ -h | --help }] [{ -r | --regex } [{ -e | --extended }]] [--] <key1> [<key2>...]"
-  local argv="$(getopt --options h,r,e --longoptions help,regex,extended -- "$@")"
+  local argv
+  argv="$(getopt --options h,r,e --longoptions help,regex,extended -- "$@")"
 
   if (( $? != 0 ))
   then
@@ -259,21 +263,23 @@ replit_keys_delete() {
   then
     for key in "${keys[@]}"
     do
-      local -i http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | \
+      local -i http_code
+      http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | \
         sed --regexp-extended --quiet '/^HTTP\/2/ { s|^HTTP/2\s+([[:digit:]]+).*|\1|; p }')
       (( http_code == 204 )) && echo "'$key' was deleted." || echo "'$key' not found."
     done
   else
     pattern=$(__replit_join '|' "${keys[@]}")
 
-    uchecked_keys=($(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null))
+    mapfile -t uchecked_keys < <(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null)
 
     for uchecked_key in "${uchecked_keys[@]}"
     do
       if grep --quiet ${use_extended_regex:+--extended-regexp} "$pattern" <<< "$uchecked_key"
       then
         local key=$uchecked_key
-        local -i http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | \
+        local -i http_code
+        http_code=$(curl --include --request DELETE "$REPLIT_DB_URL/$key" 2> /dev/null | \
           sed --regexp-extended --quiet '/^HTTP\/2/ { s|^HTTP/2\s+([[:digit:]]+).*|\1|; p }')
         (( http_code == 204 )) && echo "'$key' was deleted."
       fi
@@ -334,7 +340,7 @@ replit_keys_list() {
     shift
   done
 
-  local uchecked_keys=($(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null))
+  mapfile -t uchecked_keys < <(curl --get --data 'prefix=' "$REPLIT_DB_URL" 2> /dev/null)
 
   if (( ${#keys[@]} == 0 ))
   then
@@ -353,7 +359,8 @@ replit_keys_list() {
       fi
     done
   else
-    local pattern=$(__replit_join '|' "${keys[@]}")
+    local pattern
+    pattern=$(__replit_join '|' "${keys[@]}")
 
     for uchecked_key in "${uchecked_keys[@]}"
     do
