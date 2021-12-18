@@ -74,3 +74,7 @@ replit_keys_list usage: replit_keys_list [{ -h | --help }] [{ -r | --regex } [{ 
 - `-r`|`--regex` - use regex instead of literal strings
 - `-e`|`--extended` - use ERE regex instead of BRE
 - `--` - stops option parsing
+
+## Screenshots
+
+![image](https://user-images.githubusercontent.com/42812113/146630435-2c038321-746f-4488-8582-991003caa070.png)
